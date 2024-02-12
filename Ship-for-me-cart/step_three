@@ -1,0 +1,160 @@
+import time
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+import random
+from selenium.webdriver.common.by import By
+
+driver = webdriver.Firefox()
+driver.get("https://global.sandbox.moveon.work/ship-for-me-v2")
+
+value_services = driver.find_elements(By.CLASS_NAME, ' tw-gap-4 tw-grid tw-grid-cols-2 md:tw-grid-cols-3')
+
+if value_services:
+    random_index = random.randint(0, len(value_services) - 1)
+    random_pick = value_services[random_index]
+    random_pick.click()
+    time.sleep(2)
+
+address = driver.find_element(By.CSS_SELECTOR,'#__next > div > div > div:nth-child(2) > div.tw-bg-white.lg\:tw-bg-\[\#F5F5F5\].tw-py-6 > div > div.tw-block > div > div:nth-child(4) > div.tw-pt-4.tw-flex.tw-justify-between.tw-items-center > div.tw-flex.tw-gap-5.tw-items-center > div.tw-text-mvnGreen-800.tw-font-semibold.tw-flex.tw-items-center.tw-gap-2.tw-cursor-pointer')
+address.click()
+time.sleep(2)
+
+address_popup = driver.find_elements(By.CLASS_NAME,'tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 tw-gap-4')
+if len(address_popup) >= 2:
+    popup_index = random.randint(0,1)
+    popup_element = address_popup[popup_index]
+    popup_element.click()
+    time.sleep(2)
+
+save_button = driver.find_element(By.CSS_SELECTOR,'#radix-\:r5a\: > div.\!tw-text-base.tw-mt-4 > div > div.tw-h-full.tw-w-full.tw-rounded-\[inherit\] > div > div.tw-text-center.tw-mt-3 > button')
+save_button.click()
+time.sleep(2)
+
+new_address = driver.find_element(By.CSS_SELECTOR,'#__next > div > div > div:nth-child(2) > div.tw-bg-white.lg\:tw-bg-\[\#F5F5F5\].tw-py-6 > div > div.tw-block > div > div:nth-child(4) > div.tw-pt-4.tw-flex.tw-justify-between.tw-items-center > div.tw-flex.tw-gap-5.tw-items-center > div.tw-text-mvnGreen-800.tw-font-semibold.tw-flex.tw-items-center.tw-gap-1.tw-cursor-pointer')
+new_address.click()
+time.sleep(2)
+
+first_name = driver.find_element(By.ID,'first_name')
+first_name.click()
+time.sleep(2)
+first_name.send_keys("Atik")
+time.sleep(2)
+
+last_name = driver.find_element(By.ID,'last_name')
+last_name.click()
+time.sleep(2)
+last_name.send_keys("Rahman")
+time.sleep(2)
+
+email = driver.find_element(By.ID,'email')
+email.click()
+time.sleep(2)
+email.send_keys("atik@gmail.com")
+time.sleep(2)
+
+mobile = driver.find_element(By.ID,'phone')
+mobile.click()
+time.sleep(2)
+mobile.send_keys("23456789999")
+time.sleep(2)
+
+country_dropdown = driver.find_element(By.CSS_SELECTOR,'#country > div > div.react-select__value-container.css-hlgwow > div.react-select__input-container.css-19bb58m')
+select = Select(country_dropdown)
+select_country = select.first_selected_option
+print(select_country)
+
+expected_country = "Bangladesh"
+if select_country == expected_country:
+    print("Country")
+else:
+    print("Not a valid country")
+
+selected_country_index = select.options.index(select_country)
+print(selected_country_index)
+
+district_dropdown = driver.find_element(By.ID, 'district')
+dropdown_dis = Select(district_dropdown)
+options = dropdown_dis.options
+
+if options:
+    random_dropdown_district = random.randint(0,len(options)-1)
+    dropdown_dis.select_by_index(random_dropdown_district)
+    time.sleep(3)
+
+area = driver.find_element(By.ID,'area')
+dropdown_area = Select(area)
+options = dropdown_area.options
+
+if options:
+    random_dropdown_area = random.randint(0,len(options)-1)
+    dropdown_area.select_by_index(random_dropdown_area)
+    time.sleep(3)
+
+postal_code = driver.find_element(By.CSS_SELECTOR,'#postal_code')
+postal_code.click()
+postal_code.send_keys("1216")
+time.sleep(2)
+
+address_new = driver.find_element(By.NAME,'address_1')
+address_new.click()
+address_new.send_keys("Latest")
+time.sleep(3)
+
+apartment = driver.find_element(By.NAME,'address_2')
+apartment.click()
+apartment.send_keys("Latest")
+time.sleep(3)
+
+radio_button1 = driver.find_element(By.ID,'is_default_shipping')
+radio_button1.click()
+time.sleep(2)
+
+radio_button2 = driver.find_element(By.ID,'is_default_billing')
+
+if radio_button1.is_selected() and radio_button2.is_selected():
+    print("Both are selected")
+elif radio_button1.is_selected():
+    print("Only shipping is selected")
+elif radio_button2.is_selected():
+    print("Only billing is selected")
+else:
+    print("Neither is selected")
+    time.sleep(3)
+
+save_changes = driver.find_element(By.CSS_SELECTOR,'#radix-\:r5g\: > div.\!tw-text-base.tw-mt-4 > div > div > div > form > div.tw-mt-5.tw-text-center > div > button:nth-child(2)')
+save_changes.click()
+time.sleep(2)
+
+address_class = driver.find_elements(By.CLASS_NAME,'tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-4')
+time.sleep(2)
+if address_class:
+    random_address = random.randint(0,len(address_class)-1)
+    random_address_find = address_class[random_address]
+    random_address_find.click()
+    time.sleep(2)
+
+else:
+    print("No address")
+
+# edit_address = driver.find_element(By.XPATH,'//*[@id="__next"]/div/div/div[2]/div[3]/div/div[3]/div/div[3]/div[2]/div[1]/div/div[1]/div[2]/div/div/span[1]/svg/path')
+# edit_address.click()
+#
+# delete_address = driver.find_element(By.XPATH,'//*[@id="__next"]/div/div/div[2]/div[3]/div/div[3]/div/div[3]/div[2]/div[1]/div/div[1]/div[2]/div/div/span[3]')
+# delete_address.click()
+
+boolean_button = driver.find_elements(By.CLASS_NAME,'!tw-text-base tw-flex tw-justify-center tw-items-center tw-gap-4')
+time.sleep(2)
+if boolean_button:
+    random_button = random.randint(0,len(boolean_button)-1)
+    random_button_click = boolean_button[random_button]
+    random_button_click.click()
+    time.sleep(2)
+
+shipment_instruction = driver.find_element(By.ID,'shipping_instruction')
+shipment_instruction.click()
+shipment_instruction.send_keys("Office pickup")
+time.sleep(2)
+
+proceed_next = driver.find_element(By.CSS_SELECTOR,'#__next > div > div > div:nth-child(2) > div.tw-bg-white.lg\:tw-bg-\[\#F5F5F5\].tw-py-6 > div > div.tw-block > div > div:nth-child(6) > div > div > button')
+proceed_next.click()
+time.sleep(2)
